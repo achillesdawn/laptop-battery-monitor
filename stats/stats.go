@@ -76,7 +76,6 @@ func (b *BatStats) PrintBatteryStats() {
 		b.TimeLeft.String(),
 		b.Percent,
 	)
-
 }
 
 func (b *BatStats) String() string {
