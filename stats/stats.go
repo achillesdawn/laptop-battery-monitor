@@ -15,7 +15,6 @@ type BatStats struct {
 }
 
 func readPowerAndEnergy() (float32, float32, error) {
-
 	powerNow, err := readFloat("/sys/class/power_supply/BAT0/power_now")
 	if err != nil {
 		return 0, 0, err
@@ -30,7 +29,6 @@ func readPowerAndEnergy() (float32, float32, error) {
 }
 
 func New() (*BatStats, error) {
-
 	energyTotal, err := readFloat(
 		"/sys/class/power_supply/BAT0/energy_full",
 	)
@@ -39,6 +37,9 @@ func New() (*BatStats, error) {
 	}
 
 	powerNow, energy, err := readPowerAndEnergy()
+	if err != nil {
+		return nil, err
+	}
 
 	percent := energy / energyTotal * 100
 

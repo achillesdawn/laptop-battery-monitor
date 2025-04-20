@@ -8,7 +8,6 @@ import (
 )
 
 func readFile(path string) ([]byte, error) {
-
 	b, err := os.ReadFile(path)
 	if err != nil {
 		return nil, fmt.Errorf("could not read file: %w", err)
@@ -18,7 +17,6 @@ func readFile(path string) ([]byte, error) {
 }
 
 func readString(path string) (string, error) {
-
 	b, err := readFile(path)
 	if err != nil {
 		return "", err
@@ -30,7 +28,6 @@ func readString(path string) (string, error) {
 }
 
 func readInt(path string) (int, error) {
-
 	s, err := readString(path)
 	if err != nil {
 		return 0, err
@@ -45,7 +42,6 @@ func readInt(path string) (int, error) {
 }
 
 func readFloat(path string) (float32, error) {
-
 	i, err := readInt(path)
 	if err != nil {
 		return 0, err
