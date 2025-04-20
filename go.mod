@@ -1,4 +1,4 @@
-module github.com/achillesdawn/battery-monitor
+module github.com/achillesdawn/laptop-battery-monitor
 
 go 1.24.2
 

@@ -5,7 +5,7 @@ import (
 	"math"
 	"time"
 
-	"github.com/achillesdawn/battery-monitor/stats"
+	"github.com/achillesdawn/laptop-battery-monitor/stats"
 	tea "github.com/charmbracelet/bubbletea"
 )
 

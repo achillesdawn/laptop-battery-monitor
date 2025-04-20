@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github.com/achillesdawn/battery-monitor/bubble"
+	"github.com/achillesdawn/laptop-battery-monitor/bubble"
 )
 
 func main() {
