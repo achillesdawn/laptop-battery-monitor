@@ -31,23 +31,23 @@ func NewModel() Model {
 }
 
 func (m Model) LastStats() string {
-	var minVal float32 = float32(math.Inf(1))
-	var maxVal float32 = 0
-	var sumVal float32 = 0
+	var minV float32 = float32(math.Inf(1))
+	var maxV float32 = 0
+	var sumV float32 = 0
 
 	for _, val := range m.last {
-		if val > maxVal {
-			maxVal = val
-		} else if val < minVal {
-			minVal = val
+		if val > maxV {
+			maxV = val
+		} else if val < minV {
+			minV = val
 		}
 
-		sumVal += val
+		sumV += val
 	}
 
-	avgVal := sumVal / float32(len(m.last))
+	avgVal := sumV / float32(len(m.last))
 
-	return fmt.Sprintf("%.1fw  %.1fw %.1fw", minVal, avgVal, maxVal)
+	return fmt.Sprintf("%.1fw  %.1fw %.1fw", minV, avgVal, maxV)
 
 }
 
