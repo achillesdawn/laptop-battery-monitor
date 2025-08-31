@@ -6,17 +6,17 @@ import (
 	tea "github.com/charmbracelet/bubbletea"
 )
 
-const numSamples int = 60 * 2
-const pollTime time.Duration = time.Millisecond * 500
+const numSamples int = 4 * 60 * 2
+const pollTime time.Duration = time.Millisecond * 250
 
-type Message struct {
+type AppMessage struct {
 }
 
-func (m Model) Init() tea.Cmd {
+func (m App) Init() tea.Cmd {
 	return nil
 }
 
-func (m Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
+func (m App) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 	switch msg := msg.(type) {
 	case tea.KeyMsg:
 		switch msg.String() {
@@ -24,7 +24,7 @@ func (m Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 			return m, tea.Quit
 
 		}
-	case Message:
+	case AppMessage:
 		if len(m.last) > numSamples-1 {
 			m.last = m.last[1:]
 		}
@@ -36,14 +36,14 @@ func (m Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 	return m, tea.Tick(pollTime, m.Monitor)
 }
 
-func (m Model) View() string {
+func (m App) View() string {
 	return m.bat.String() +
 		"\t" +
 		m.LastStats()
 }
 
 func RunBubble() {
-	p := tea.NewProgram(NewModel())
+	p := tea.NewProgram(NewApp())
 	if _, err := p.Run(); err != nil {
 		panic(err)
 	}

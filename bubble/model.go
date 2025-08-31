@@ -9,52 +9,61 @@ import (
 	tea "github.com/charmbracelet/bubbletea"
 )
 
-type Model struct {
+type App struct {
 	bat  *stats.BatStats
 	last []float32
 }
 
-func NewModel() Model {
+func NewApp() App {
 	bat, err := stats.New()
 	if err != nil {
 		panic(err)
 	}
 
-	bat.CalcTimeLeft()
+	_, err = bat.CalcTimeLeft()
+	if err != nil {
+		panic(err)
+	}
 
 	last := make([]float32, 0, numSamples)
 
-	return Model{
+	return App{
 		bat:  bat,
 		last: last,
 	}
 }
 
-func (m Model) LastStats() string {
-	var minV float32 = float32(math.Inf(1))
-	var maxV float32 = 0
-	var sumV float32 = 0
+func (m App) LastStats() string {
+	var minVal = float32(math.Inf(1))
+	var maxVal float32 = 0
+	var sumVals float32 = 0
 
 	for _, val := range m.last {
-		if val > maxV {
-			maxV = val
-		} else if val < minV {
-			minV = val
+		if val > maxVal {
+			maxVal = val
+		}
+		if val < minVal {
+			minVal = val
 		}
 
-		sumV += val
+		sumVals += val
 	}
 
-	avgVal := sumV / float32(len(m.last))
+	avgVal := sumVals / float32(len(m.last))
 
-	return fmt.Sprintf("%.1fw  %.1fw %.1fw", minV, avgVal, maxV)
-
+	return fmt.Sprintf("%.1fw  %.1fw %.1fw", minVal, avgVal, maxVal)
 }
 
-func (m *Model) Monitor(t time.Time) tea.Msg {
-	m.bat.ReadPowerAndEnergy()
+func (m *App) Monitor(t time.Time) tea.Msg {
+	err := m.bat.ReadPowerAndEnergy()
+	if err != nil {
+		panic(err)
+	}
 
-	m.bat.CalcTimeLeft()
+	_, err = m.bat.CalcTimeLeft()
+	if err != nil {
+		panic(err)
+	}
 
-	return Message{}
+	return AppMessage{}
 }

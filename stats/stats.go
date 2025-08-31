@@ -106,17 +106,17 @@ func (b *BatStats) ReadPowerAndEnergy() error {
 	return nil
 }
 
-func (b *BatStats) Monitor() error {
-	for {
-		err := b.ReadPowerAndEnergy()
-		if err != nil {
-			return err
-		}
+// func (b *BatStats) Monitor() error {
+// 	for {
+// 		err := b.ReadPowerAndEnergy()
+// 		if err != nil {
+// 			return err
+// 		}
 
-		b.CalcTimeLeft()
+// 		b.CalcTimeLeft()
 
-		b.PrintBatteryStats()
+// 		b.PrintBatteryStats()
 
-		time.Sleep(time.Second)
-	}
-}
+// 		time.Sleep(time.Second)
+// 	}
+// }
