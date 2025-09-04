@@ -1,6 +1,6 @@
 module github.com/achillesdawn/laptop-battery-monitor
 
-go 1.24.2
+go 1.24.7
 
 require github.com/charmbracelet/bubbletea v1.3.4
 

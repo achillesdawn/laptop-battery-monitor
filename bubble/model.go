@@ -12,6 +12,11 @@ import (
 type App struct {
 	bat  *stats.BatStats
 	last []float32
+
+	width  int
+	height int
+
+	quit bool
 }
 
 func NewApp() App {
@@ -30,6 +35,7 @@ func NewApp() App {
 	return App{
 		bat:  bat,
 		last: last,
+		quit: false,
 	}
 }
 
@@ -51,7 +57,11 @@ func (m App) LastStats() string {
 
 	avgVal := sumVals / float32(len(m.last))
 
-	return fmt.Sprintf("%.1fw  %.1fw %.1fw", minVal, avgVal, maxVal)
+	minValStr := stats.ColorFloat(minVal)
+	avgValStr := stats.ColorFloat(avgVal)
+	maxValStr := stats.ColorFloat(maxVal)
+
+	return fmt.Sprintf("%sw %sw %sw", minValStr, avgValStr, maxValStr)
 }
 
 func (m *App) Monitor(t time.Time) tea.Msg {

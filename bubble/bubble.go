@@ -21,9 +21,14 @@ func (m App) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 	case tea.KeyMsg:
 		switch msg.String() {
 		case "ctrl+c", "q":
+			m.quit = true
 			return m, tea.Quit
-
 		}
+	case tea.WindowSizeMsg:
+		m.height = msg.Height
+		m.width = msg.Width
+
+		return m, tea.Tick(pollTime, m.Monitor)
 	case AppMessage:
 		if len(m.last) > numSamples-1 {
 			m.last = m.last[1:]
@@ -37,9 +42,12 @@ func (m App) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 }
 
 func (m App) View() string {
-	return m.bat.String() +
-		"\t" +
-		m.LastStats()
+	if m.quit {
+		return ""
+	}
+
+	legacy := m.bat.RenderStats() + "\t" + m.LastStats()
+	return BorderedStyle.Render(legacy)
 }
 
 func RunBubble() {
