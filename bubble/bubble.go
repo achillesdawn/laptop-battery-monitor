@@ -4,6 +4,7 @@ import (
 	"time"
 
 	tea "github.com/charmbracelet/bubbletea"
+	"github.com/charmbracelet/lipgloss"
 )
 
 const numSamples int = 4 * 60 * 2
@@ -47,11 +48,19 @@ func (m App) View() string {
 	}
 
 	legacy := m.bat.RenderStats() + "\t" + m.LastStats()
-	return BorderedStyle.Render(legacy)
+
+	rendered := BorderedStyle.Render(legacy)
+
+	width, _ := lipgloss.Size(rendered)
+
+	if width > m.width {
+		rendered = BorderedStyle.Render(m.bat.RenderStats())
+	}
+	return rendered
 }
 
 func RunBubble() {
-	p := tea.NewProgram(NewApp())
+	p := tea.NewProgram(NewApp(), tea.WithAltScreen())
 	if _, err := p.Run(); err != nil {
 		panic(err)
 	}
